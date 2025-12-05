@@ -35,14 +35,14 @@ function SignUp() {
       <div className="flex border shadow p-5 bg-white border-gray-300 flex-col">
         <div className="">
           <p className="text-xl text-[#4a2c40] font-bold">Sign Up</p>
-          <p className="text-[#f1b81c]">
+          <p className="text-[#8661c1]">
             Enter your details to create your account.
           </p>
         </div>
 
         <div className="grid grid-cols-2 my-10 gap-5">
           <div>
-            <p className="text-[#4a2c40] mb-1 font-semibold">Full Name</p>
+            <p className="text-[#8661c1] mb-1 font-semibold">Full Name</p>
             <input
               type="text"
               onChange={(event) => {
@@ -121,7 +121,7 @@ function SignUp() {
             onClick={() => {
               creatingUser();
             }}
-            className="bg-[#f1b81c] text-white py-2 w-40"
+            className="bg-[#8661c1] text-white font-semibold py-2 w-40"
           >
             Sign Up
           </button>
