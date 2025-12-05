@@ -2,7 +2,7 @@ import React from 'react'
 
 function CustomerNavbar() {
   return (
-    <div className="bg-[#0c0a3e] flex items-center justify-between font-semibold p-3">
+    <div className="bg-[#2e294e] flex items-center justify-between font-semibold p-3">
       <div className="text-white flex items-center space-x-3">
         <button>Dashboard</button>
         <button>Shipments</button>
