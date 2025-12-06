@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../SupabaseConfiguration";
 
+
 function AddFleetForm({ setopeningAddFleetForm }) {
   const [vehicleName, setvehicleName] = useState("");
   const [vehicleType, setvehicleType] = useState("");
@@ -46,14 +47,14 @@ function AddFleetForm({ setopeningAddFleetForm }) {
     };
 
     const { data, error } = await supabase
-      .from("fleet_database")
+      .from("shipment_database")
       .insert([fleetData]);
 
     if (error) {
       console.log(error);
       alert("Something went wrong!");
     } else {
-      alert("Fleet added successfully!");
+      alert("User added successfully!");
       console.log("Inserted:", data);
       setopeningAddFleetForm(false);
     }

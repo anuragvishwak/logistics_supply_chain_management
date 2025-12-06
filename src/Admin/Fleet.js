@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminNavbar from "./AdminNavbar";
 import AddFleetForm from "./AddFleetForm";
 import { supabase } from "../SupabaseConfiguration";
-import { FaEye } from "react-icons/fa";
+import { FaEye, FaUser } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 
 function Fleet() {
@@ -11,6 +11,9 @@ function Fleet() {
   const [openingAdditionalDetails, setopeningAdditionalDetails] =
     useState(false);
   const [capturingAdditionalData, setcapturingAdditionalData] = useState({});
+  const [gettingDrivers, setgettingDrivers] = useState([]);
+  const [selectedDriver, setselectedDriver] = useState("");
+  const [openingAssignDriverForm, setopeningAssignDriverForm] = useState(false);
 
   async function renderingFleets() {
     try {
@@ -31,10 +34,51 @@ function Fleet() {
     }
   }
 
-  console.log("getting Fleets", gettingFleets);
+  async function renderingDrivers() {
+    try {
+      const { data: fleetData, error: fleetError } = await supabase
+        .from("driver_database")
+        .select("*");
+
+      if (fleetError) {
+        console.error(fleetError);
+        alert("Error fetching drvier data");
+        return;
+      }
+
+      setgettingDrivers(fleetData);
+    } catch (error) {
+      console.error(error);
+      alert("Unexpected error fetching fleet data");
+    }
+  }
+
+  async function assignDriverToFleet(fleetId) {
+    try {
+      const { data, error } = await supabase
+        .from("fleet_database")
+        .update({
+          assignedDriverName: selectedDriver,
+        })
+        .eq("id", fleetId);
+
+      if (error) {
+        console.error(error);
+        alert("Error assigning driver");
+        return;
+      }
+
+      alert("Driver Assigned Successfully!");
+      renderingFleets();
+    } catch (err) {
+      console.error(err);
+      alert("Unexpected error occurred");
+    }
+  }
 
   useEffect(() => {
     renderingFleets();
+    renderingDrivers();
   }, []);
 
   return (
@@ -70,9 +114,18 @@ function Fleet() {
                   <p className="text-white text-xl font-bold">
                     {fleet.vehicleName}
                   </p>
-                  <p className="text-[#2e294e] font-semibold text-sm bg-white py-0.5 px-4 rounded-full">
-                    {fleet.vehicleType}
-                  </p>
+                  <div className="flex items-center space-x-1">
+                    <p className="text-[#2e294e] font-semibold text-sm bg-white py-0.5 px-4 rounded-full">
+                      {fleet.vehicleType}
+                    </p>
+                    <select className="border border-gray-300 rounded px-1 w-32">
+                      <option>Select Status</option>
+                      <option>Active</option>
+                      <option>Inactive</option>
+                      <option>Under Maintenance</option>
+                      <option>Retired</option>
+                    </select>
+                  </div>
                 </div>
                 <div className="flex items-center font-semibold text-sm text-[#2e294e] space-x-1">
                   <p>{fleet.brand}</p>
@@ -114,6 +167,16 @@ function Fleet() {
                 <div className="flex items-center space-x-3 justify-end">
                   <button
                     onClick={() => {
+                      setopeningAssignDriverForm(true);
+                    }}
+                    className="border border-[#2e294e] hover:bg-[#2e294e] hover:text-white py-0.5 px-3 rounded text-[#2e294e]"
+                  >
+                    <div className="flex items-center space-x-1">
+                      <FaUser /> <p className="font-semibold">Assign Driver</p>
+                    </div>
+                  </button>
+                  <button
+                    onClick={() => {
                       setopeningAdditionalDetails(true);
                       setcapturingAdditionalData(fleet);
                     }}
@@ -130,13 +193,6 @@ function Fleet() {
                       <p>Add Maintenance</p>
                     </div>
                   </button>
-                  <select className="border border-gray-300 rounded p-1 w-40">
-                    <option>Select Status</option>
-                    <option>Active</option>
-                    <option>Inactive</option>
-                    <option>Under Maintenance</option>
-                    <option>Retired</option>
-                  </select>
                 </div>
               </div>
             </div>
@@ -240,34 +296,66 @@ function Fleet() {
                 </p>
                 <div className="p-3 border border-gray-300 rounded">
                   <div className="flex items-center justify-between">
-                  <p className="text-[#2e294e]">Insurance Validity</p>
-                  <p className="text-[#8661c1] font-semibold">
-                    {capturingAdditionalData.insuranceValidityDate}
-                  </p>
-                </div>
+                    <p className="text-[#2e294e]">Insurance Validity</p>
+                    <p className="text-[#8661c1] font-semibold">
+                      {capturingAdditionalData.insuranceValidityDate}
+                    </p>
+                  </div>
 
-                <div className="flex items-center mt-1.5 border-t border-gray-300 py-1.5 justify-between">
-                  <p className="text-[#2e294e]">Pollution Certificate</p>
-                  <p className="text-[#8661c1] font-semibold">
-                    {capturingAdditionalData.pollutionCertificateExpiry}
-                  </p>
-                </div>
-                <div className="flex items-center border-y border-gray-300 my-1.5 py-1.5 justify-between">
-                  <p className="text-[#2e294e]">National Permit</p>
-                  <p className="text-[#8661c1] font-semibold">
-                    {capturingAdditionalData.nationalPermitValidity}
-                  </p>
-                </div>
+                  <div className="flex items-center mt-1.5 border-t border-gray-300 py-1.5 justify-between">
+                    <p className="text-[#2e294e]">Pollution Certificate</p>
+                    <p className="text-[#8661c1] font-semibold">
+                      {capturingAdditionalData.pollutionCertificateExpiry}
+                    </p>
+                  </div>
+                  <div className="flex items-center border-y border-gray-300 my-1.5 py-1.5 justify-between">
+                    <p className="text-[#2e294e]">National Permit</p>
+                    <p className="text-[#8661c1] font-semibold">
+                      {capturingAdditionalData.nationalPermitValidity}
+                    </p>
+                  </div>
 
-                <div className="flex items-center justify-between">
-                  <p className="text-[#2e294e]">Road Tax</p>
-                  <p className="text-[#8661c1] font-semibold">
-                    {capturingAdditionalData.roadTaxValidity}
-                  </p>
-                </div>
+                  <div className="flex items-center justify-between">
+                    <p className="text-[#2e294e]">Road Tax</p>
+                    <p className="text-[#8661c1] font-semibold">
+                      {capturingAdditionalData.roadTaxValidity}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {openingAssignDriverForm && (
+        <div className="bg-black z-50 flex flex-col justify-center items-center fixed inset-0 bg-opacity-70">
+          <div className="bg-white p-5">
+            <div className="flex justify-end">
+              <button
+              onClick={() => {
+                setopeningAssignDriverForm(false);
+              }} 
+              className="text-[#8661c1] font-semibold"
+            >
+              Close
+            </button>
+            </div>
+            <div>
+              <p className="mb-1 font-semibold text-[#4a2c40]">Assign Driver</p>
+              <select
+                onChange={(event) => {
+                  setselectedDriver(event.target.value);
+                }}
+                className="p-1.5 rounded border w-96 border-gray-300"
+              >
+                <option>Assign Driver</option>
+                {gettingDrivers.map((vehicle) => (
+                  <option value={vehicle.fullName}>{vehicle.fullName}</option>
+                ))}
+              </select>
+            </div>
+            <div></div>
           </div>
         </div>
       )}

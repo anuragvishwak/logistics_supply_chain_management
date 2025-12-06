@@ -33,7 +33,6 @@ function AdminDriver() {
     }
   }
 
-  console.log("getting Drviers", gettingDrivers);
 
   useEffect(() => {
     renderingDrivers();
