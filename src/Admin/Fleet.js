@@ -54,11 +54,13 @@ function Fleet() {
   }
 
   async function assignDriverToFleet(fleetId) {
+    console.log("finding fleetId",fleetId)
+    console.log("finding selected driver",selectedDriver)
     try {
       const { data, error } = await supabase
         .from("fleet_database")
         .update({
-          assignedDriverName: selectedDriver,
+          assignedDriver: selectedDriver,
         })
         .eq("id", fleetId);
 
@@ -168,6 +170,8 @@ function Fleet() {
                   <button
                     onClick={() => {
                       setopeningAssignDriverForm(true);
+                      setcapturingAdditionalData(fleet);
+
                     }}
                     className="border border-[#2e294e] hover:bg-[#2e294e] hover:text-white py-0.5 px-3 rounded text-[#2e294e]"
                   >
@@ -333,13 +337,13 @@ function Fleet() {
           <div className="bg-white p-5">
             <div className="flex justify-end">
               <button
-              onClick={() => {
-                setopeningAssignDriverForm(false);
-              }} 
-              className="text-[#8661c1] font-semibold"
-            >
-              Close
-            </button>
+                onClick={() => {
+                  setopeningAssignDriverForm(false);
+                }}
+                className="text-[#8661c1] font-semibold"
+              >
+                Close
+              </button>
             </div>
             <div>
               <p className="mb-1 font-semibold text-[#4a2c40]">Assign Driver</p>
@@ -355,7 +359,31 @@ function Fleet() {
                 ))}
               </select>
             </div>
-            <div></div>
+            <div className="my-4 border p-3 border-gray-300">
+              <p className="text-[#8661c1] font-semibold mb-3 text-lg">Driver Details</p>
+              {gettingDrivers
+                .filter((driver) => driver.fullName === selectedDriver)
+                .map((driver) => (
+                  <div>
+                    <p className="font-semibold">{driver.fullName}</p>
+                    <div className="flex items-center space-x-1">
+                      <p>{driver.email}</p>
+                      <span>|</span>
+                      <p>+91 {driver.phoneNumber}</p>
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+            <div className="flex justify-end mt-5">
+              <button 
+              onClick={()=>{
+                assignDriverToFleet(capturingAdditionalData.id);
+              }}
+              className="bg-[#8661c1] text-white py-1 px-4 rounded">
+                Assign Driver
+              </button>
+            </div>
           </div>
         </div>
       )}

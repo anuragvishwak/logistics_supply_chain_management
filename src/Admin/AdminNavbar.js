@@ -6,7 +6,7 @@ function AdminNavbar() {
   const navigation = useNavigate();
 
   return (
-    <div className="bg-[#2e294e] flex items-center justify-between font-semibold p-3">
+    <div className="bg-[#4B248F] flex items-center justify-between font-semibold p-3">
       <div className="text-white flex items-center space-x-3">
         <button>Dashboard</button>
         <button
@@ -14,7 +14,7 @@ function AdminNavbar() {
             navigation("/Fleet");
           }}
           className={`${
-            location.pathname === "/Fleet" ? "text-[#8661c1]" : ""
+            location.pathname === "/Fleet" ? "text-[#ed7225]" : ""
           }`}
         >
           Fleets
@@ -24,7 +24,7 @@ function AdminNavbar() {
             navigation("/AdminDriver");
           }}
           className={`${
-            location.pathname === "/AdminDriver" ? "text-[#8661c1]" : ""
+            location.pathname === "/AdminDriver" ? "text-[#ed7225]" : ""
           }`}
         >
           Drivers
@@ -35,7 +35,7 @@ function AdminNavbar() {
           }}
           className={`${
             location.pathname === "/AdminShipmentLoadManagement"
-              ? "text-[#8661c1]"
+              ? "text-[#ed7225]"
               : ""
           }`}
         >
@@ -46,7 +46,7 @@ function AdminNavbar() {
             navigation("/AdminVendors");
           }}
           className={`${
-            location.pathname === "/AdminVendors" ? "text-[#8661c1]" : ""
+            location.pathname === "/AdminVendors" ? "text-[#ed7225]" : ""
           }`}
         >
           Vendors
@@ -56,7 +56,7 @@ function AdminNavbar() {
             navigation("/AdminFinanceBilling");
           }}
           className={`${
-            location.pathname === "/AdminFinanceBilling" ? "text-[#8661c1]" : ""
+            location.pathname === "/AdminFinanceBilling" ? "text-[#ed7225]" : ""
           }`}
         >
           Finance & Billing
@@ -67,7 +67,7 @@ function AdminNavbar() {
           }}
           className={`${
             location.pathname === "/AdminRouteManagement"
-              ? "text-[#8661c1]"
+              ? "text-[#ed7225]"
               : ""
           }`}
         >
@@ -78,7 +78,7 @@ function AdminNavbar() {
             navigation("/AdminClients");
           }}
           className={`${
-            location.pathname === "/AdminClients" ? "text-[#8661c1]" : ""
+            location.pathname === "/AdminClients" ? "text-[#ed7225]" : ""
           }`}
         >
           Clients
@@ -89,7 +89,7 @@ function AdminNavbar() {
           }}
           className={`${
             location.pathname === "/AdminWarehouseInventory"
-              ? "text-[#8661c1]"
+              ? "text-[#ed7225]"
               : ""
           }`}
         >
@@ -100,7 +100,7 @@ function AdminNavbar() {
             navigation("/AdminSupportTickets");
           }}
           className={`${
-            location.pathname === "/AdminSupportTickets" ? "text-[#8661c1]" : ""
+            location.pathname === "/AdminSupportTickets" ? "text-[#ed7225]" : ""
           }`}
         >
           Support & Tickets

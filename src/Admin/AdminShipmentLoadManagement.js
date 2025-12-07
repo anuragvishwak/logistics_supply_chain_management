@@ -11,10 +11,10 @@ function AdminShipmentLoadManagement() {
       <AdminNavbar />
       <div className=" border border-gray-300 shadow bg-white m-5 p-5 rounded-lg justify-between">
         <div>
-          <p className="text-[#2e294e] text-xl font-bold">
+          <p className="text-[#4B248F] text-xl font-bold">
             Shipment & Load Management
           </p>
-          <p className="text-[#8661c1]">
+          <p className="text-[#ed7225]">
             Manage all your Shipments and Load Management in single CMS system.
           </p>
         </div>
@@ -30,7 +30,7 @@ function AdminShipmentLoadManagement() {
                 onClick={() => {
                   setopeningAddShipmentForm(true);
                 }}
-                className="bg-[#8661c1] text-white font-semibold py-1 px-4 rounded"
+                className="bg-[#ed7225] text-white font-semibold py-1 px-4 rounded"
               >
                 Add Shipment
               </button>
