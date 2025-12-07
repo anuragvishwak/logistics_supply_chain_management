@@ -47,7 +47,7 @@ function AddFleetForm({ setopeningAddFleetForm }) {
     };
 
     const { data, error } = await supabase
-      .from("shipment_database")
+      .from("fleet_database")
       .insert([fleetData]);
 
     if (error) {
