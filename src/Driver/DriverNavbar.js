@@ -14,6 +14,6 @@ function DriverNavbar() {
       <button className="text-white font-semibold">User1</button>
     </div>
   )
-}
+} 
 
 export default DriverNavbar

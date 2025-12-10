@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { supabase } from "../SupabaseConfiguration";
 
 function AddShipmentForm({ setopeningAddShipmentForm }) {
@@ -9,7 +9,7 @@ function AddShipmentForm({ setopeningAddShipmentForm }) {
   const [pickupState, setpickupState] = useState("");
   const [pickupCity, setpickupCity] = useState("");
   const [pickupPincode, setpickupPincode] = useState("");
-  const [pickupAddress, setpickupAddress] = useState("");   
+  const [pickupAddress, setpickupAddress] = useState("");
   const [pickupDateTime, setpickupDateTime] = useState("");
   const [deliveryCountry, setdeliveryCountry] = useState("");
   const [deliveryState, setdeliveryState] = useState("");
@@ -27,9 +27,35 @@ function AddShipmentForm({ setopeningAddShipmentForm }) {
   const [totalWeight, settotalWeight] = useState("");
   const [totalVolume, settotalVolume] = useState("");
   const [materialType, setmaterialType] = useState("");
+  const [gettingRoutes, setgettingRoutes] = useState([]);
+  const [selectedRoute, setselectedRoute] = useState("");
+
+  async function renderingRoutes() {
+    try {
+      const { data: fleetData, error: fleetError } = await supabase
+        .from("route_database")
+        .select("*");
+
+      if (fleetError) {
+        console.error(fleetError);
+        alert("Error fetching drvier data");
+        return;
+      }
+
+      setgettingRoutes(fleetData);
+    } catch (error) {
+      console.error(error);
+      alert("Unexpected error fetching fleet data");
+    }
+  }
+
+  useEffect(() => {
+    renderingRoutes();
+  }, []);
 
   async function addShipment() {
     const shipmentData = {
+      selectedRoute: selectedRoute,
       shipmentTitle: shipmentTitle,
       shipmentType: shipmentType,
       priority: priority,
@@ -145,6 +171,24 @@ function AddShipmentForm({ setopeningAddShipmentForm }) {
                   <option>High</option>
                   <option>Medium</option>
                   <option>Low</option>
+                </select>
+              </div>
+              <div>
+                <p className="mb-1 font-semibold text-[#4a2c40]">
+                  Assign Route
+                </p>
+                <select
+                  onChange={(event) => {
+                    setselectedRoute(event.target.value);
+                  }}
+                  className="p-1.5 rounded border w-52 border-gray-300"
+                >
+                  <option>Assign Route</option>
+                  {gettingRoutes.map((vehicle) => (
+                    <option value={vehicle.routeName}>
+                      {vehicle.routeName}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
