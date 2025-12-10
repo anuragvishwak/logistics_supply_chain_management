@@ -29,6 +29,20 @@ function AdminNavbar() {
         >
           Drivers
         </button>
+
+        <button
+          onClick={() => {
+            navigation("/AdminRouteManagement");
+          }}
+          className={`${
+            location.pathname === "/AdminRouteManagement"
+              ? "text-[#ed7225]"
+              : ""
+          }`}
+        >
+          Route Management
+        </button>
+
         <button
           onClick={() => {
             navigation("/AdminShipmentLoadManagement");
@@ -53,28 +67,6 @@ function AdminNavbar() {
         </button>
         <button
           onClick={() => {
-            navigation("/AdminFinanceBilling");
-          }}
-          className={`${
-            location.pathname === "/AdminFinanceBilling" ? "text-[#ed7225]" : ""
-          }`}
-        >
-          Finance & Billing
-        </button>
-        <button
-          onClick={() => {
-            navigation("/AdminRouteManagement");
-          }}
-          className={`${
-            location.pathname === "/AdminRouteManagement"
-              ? "text-[#ed7225]"
-              : ""
-          }`}
-        >
-          Route Management
-        </button>
-        <button
-          onClick={() => {
             navigation("/AdminClients");
           }}
           className={`${
@@ -82,6 +74,16 @@ function AdminNavbar() {
           }`}
         >
           Clients
+        </button>
+        <button
+          onClick={() => {
+            navigation("/AdminFinanceBilling");
+          }}
+          className={`${
+            location.pathname === "/AdminFinanceBilling" ? "text-[#ed7225]" : ""
+          }`}
+        >
+          Finance & Billing
         </button>
         <button
           onClick={() => {
@@ -106,7 +108,15 @@ function AdminNavbar() {
           Support & Tickets
         </button>
       </div>
-      <button className="text-white font-semibold">User1</button>
+      <button
+        onClick={() => {
+          localStorage.clear();
+          navigation("/");
+        }}
+        className="text-white font-semibold"
+      >
+        User1
+      </button>
     </div>
   );
 }

@@ -114,7 +114,7 @@ function Shipment() {
                 <p className="text-[#ed7225] font-semibold text-lg">
                   {shipment.pickupState}, {shipment.pickupCountry}
                 </p>
-                <p className="w-60">{shipment.pickupAddress}</p>
+                <p className="w-60text-sm text-gray-500">{shipment.pickupAddress}</p>
               </div>
 
               <span>
@@ -128,7 +128,7 @@ function Shipment() {
                 <p className="text-[#ed7225] font-semibold text-lg">
                   {shipment.deliveryState}, {shipment.deliveryCountry}
                 </p>
-                <p className="w-60">{shipment.deliveryAddress}</p>
+                <p className="w-60 text-sm text-gray-500">{shipment.deliveryAddress}</p>
               </div>
             </div>
 
